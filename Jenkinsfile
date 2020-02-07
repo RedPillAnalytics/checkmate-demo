@@ -84,7 +84,7 @@ pipeline {
       stage('Deploy to QA') {
          when { branch "master" }
          steps {
-            script {
+            userInput = script {
                input {
                      message "Deploy Release to QA?"
                      ok "Deploy"
