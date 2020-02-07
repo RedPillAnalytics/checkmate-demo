@@ -16,6 +16,7 @@ pipeline {
 		GRADLE_SECRET = "${env.GRADLE_COMBINED_PSW}"
       ADMIN = credentials('obiee-admin-user')
       repositoryPassword = credentials('obiee-repository-password')
+      JENKINS_NODE_COOKIE = 'dontKillMe'
    }
 
    stages {
@@ -28,7 +29,7 @@ pipeline {
             }
             stage('Build') {
                steps {
-                  sh "$gradle build"
+                  sh "$gradle buildZip"
                }
             }
          }
