@@ -21,6 +21,7 @@ pipeline {
 
    stages {
       stage('Assemble') {
+         when { changeRequest() }
          parallel {
             stage('Startup') {
                steps {
