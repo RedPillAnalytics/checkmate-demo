@@ -71,7 +71,7 @@ pipeline {
       stage('Publish') {
          when { branch "master" }
          steps {
-            sh "$gradle publish"
+            sh "$gradle featureCompare publish"
          }
          post {
             always {
