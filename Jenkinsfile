@@ -44,7 +44,20 @@ pipeline {
       stage('Baseline Test') {
          when { changeRequest() }
          steps {
-            sh "$gradle featureBaseline"
+            sh "$gradle featureBaselineWorkflow"
+         }
+         post {
+            always {
+               junit testResults: 'obi/build/test-groups/**/*.xml', allowEmptyResults: true
+               sh "$gradle producer"
+            }
+         }
+      }
+
+      stage('Revision Test') {
+         when { changeRequest() }
+         steps {
+            sh "$gradle revisionWorkflow"
          }
          post {
             always {
