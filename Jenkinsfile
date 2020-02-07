@@ -20,7 +20,7 @@ pipeline {
    }
 
    stages {
-      stage('Initial') {
+      stage('Assemble') {
          parallel {
             stage('Startup') {
                steps {
@@ -41,25 +41,21 @@ pipeline {
          }
       }
 
-      // stage('Test') {
+      // stage('Baseline Test') {
       //    when { changeRequest() }
-      //    environment {
-      //       JENKINS_NODE_COOKIE = 'dontKillMe'
-      //    }
       //    steps {
-      //       sh "$gradle cleanJunit startOBI runAllTests"
+      //       sh "$gradle featureBaseline"
       //    }
       //    post {
       //       always {
-      //          junit testResults: 'build/test-results/**/*.xml', allowEmptyResults: true
-      //          archiveArtifacts artifacts: 'build/tmp/onlineTest/**/build/distributions/*.zip', fingerprint: true, allowEmptyArchive: true
+      //          junit testResults: 'obi/build/test-results/**/*.xml', allowEmptyResults: true
       //          sh "$gradle producer"
       //       }
       //    }
       // }
 
       stage('Publish') {
-         when { branch "master" }
+         //when { branch "master" }
          steps {
             sh "$gradle publish"
          }
