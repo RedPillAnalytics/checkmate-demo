@@ -1,0 +1,39 @@
+plugins {
+  id 'com.redpillanalytics.checkmate.obi' version "10.2.9"
+  id 'com.avast.gradle.docker-compose' version "0.10.7"
+  id 'com.adarshr.test-logger' version "2.0.0"
+}
+
+obi {
+  middlewareHome = '/opt/oracle/product/12c'
+  domainHome = '/opt/oracle/domains/bi'
+  compatibility = '12.2.1.4'
+  contentPolicy = 'distribution'
+  biHost = 'localhost'
+  adminHost = 'localhost'
+}
+
+version = '1.0.0'
+
+publishing {
+   repositories {
+      maven {
+         url publishUrl
+      }
+   }
+}
+
+repositories {
+   mavenLocal()
+   maven {
+      url "https://plugins.gradle.org/m2/"
+   }
+   maven {
+      url publishUrl
+   }
+}
+
+dependencies {
+  obiee 'com.redpillanalytics:checkmate-obi:+'
+  feature 'obiee:obi-build:+'
+}
