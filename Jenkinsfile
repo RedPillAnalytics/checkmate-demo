@@ -82,7 +82,7 @@ pipeline {
       stage('Deploy to QA') {
          when { branch "master" }
          steps {
-            sh "$gradle promoteImportWorkflow"
+            sh "$gradle importWorkflow"
          }
          post {
             always {
