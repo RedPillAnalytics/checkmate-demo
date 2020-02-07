@@ -84,13 +84,6 @@ pipeline {
       stage('Deploy to QA') {
          when { branch "master" }
          steps {
-            input {
-                  message "Deploy Release to QA?"
-                  ok "Deploy"
-                  parameters {
-                     string(name: 'Approver', defaultValue: 'Stewart Bryson', description: 'The approver')
-                  }
-            }
             sh "$gradle importWorkflow"
          }
          post {
