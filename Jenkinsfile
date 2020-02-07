@@ -29,7 +29,7 @@ pipeline {
             }
             stage('Build') {
                steps {
-                  sh "$gradle buildZip"
+                  sh "$gradle featureCompare buildZip"
                }
             }
          }
@@ -41,21 +41,21 @@ pipeline {
          }
       }
 
-      // stage('Baseline Test') {
-      //    when { changeRequest() }
-      //    steps {
-      //       sh "$gradle featureBaseline"
-      //    }
-      //    post {
-      //       always {
-      //          junit testResults: 'obi/build/test-results/**/*.xml', allowEmptyResults: true
-      //          sh "$gradle producer"
-      //       }
-      //    }
-      // }
+      stage('Baseline Test') {
+         when { changeRequest() }
+         steps {
+            sh "$gradle featureBaseline"
+         }
+         post {
+            always {
+               junit testResults: 'obi/build/test-results/**/*.xml', allowEmptyResults: true
+               sh "$gradle producer"
+            }
+         }
+      }
 
       stage('Publish') {
-         //when { branch "master" }
+         when { branch "master" }
          steps {
             sh "$gradle publish"
          }
