@@ -75,6 +75,7 @@ pipeline {
          }
          post {
             always {
+               archiveArtifacts artifacts: 'obi/build/distributions/*.zip', fingerprint: true, allowEmptyArchive: true
                sh "$gradle producer"
             }
          }
