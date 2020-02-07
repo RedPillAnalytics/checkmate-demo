@@ -48,7 +48,7 @@ pipeline {
          }
          post {
             always {
-               junit testResults: 'obi/build/test-results/**/*.xml', allowEmptyResults: true
+               junit testResults: 'obi/build/test-groups/**/*.xml', allowEmptyResults: true
                sh "$gradle producer"
             }
          }
