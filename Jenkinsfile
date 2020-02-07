@@ -29,7 +29,7 @@ pipeline {
             }
             stage('Build') {
                steps {
-                  sh "$gradle featureCompare buildZip"
+                  sh "$gradle featureCompare buildZip deployZip"
                }
             }
          }
