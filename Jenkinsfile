@@ -35,7 +35,7 @@ pipeline {
          }
          post {
             always {
-               archiveArtifacts artifacts: 'build/distributions/*.zip', fingerprint: true, allowEmptyArchive: true
+               archiveArtifacts artifacts: 'obi/build/distributions/*.zip', fingerprint: true, allowEmptyArchive: true
                sh "$gradle producer"
             }
          }
@@ -58,16 +58,16 @@ pipeline {
       //    }
       // }
 
-      // stage('Publish') {
-      //    when { branch "master" }
-      //    steps {
-      //       sh "$gradle publish"
-      //    }
-      //    post {
-      //       always {
-      //          sh "$gradle producer"
-      //       }
-      //    }
-      // }
+      stage('Publish') {
+         when { branch "master" }
+         steps {
+            sh "$gradle publish"
+         }
+         post {
+            always {
+               sh "$gradle producer"
+            }
+         }
+      }
    }
 }
