@@ -16,35 +16,52 @@ pipeline {
 		GRADLE_SECRET = "${env.GRADLE_COMBINED_PSW}"
       ADMIN = credentials('obiee-admin-user')
       repositoryPassword = credentials('obiee-repository-password')
+      JENKINS_NODE_COOKIE = 'dontKillMe'
    }
 
    stages {
-
-      stage('Build') {
-         steps {
-            sh "$gradle build"
+      stage('Assemble') {
+         parallel {
+            stage('Startup') {
+               steps {
+                  sh "$gradle startServices"
+               }
+            }
+            stage('Build') {
+               steps {
+                  sh "$gradle featureCompare buildZip deployZip"
+               }
+            }
          }
          post {
             always {
-               junit testResults: 'build/test-results/test/*.xml', allowEmptyResults: true
-               archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true, allowEmptyArchive: true
+               archiveArtifacts artifacts: 'obi/build/distributions/*.zip', fingerprint: true, allowEmptyArchive: true
                sh "$gradle producer"
             }
          }
       }
 
-      stage('Test') {
+      stage('Baseline Test') {
          when { changeRequest() }
-         environment {
-            JENKINS_NODE_COOKIE = 'dontKillMe'
-         }
          steps {
-            sh "$gradle cleanJunit startOBI runAllTests"
+            sh "$gradle featureBaselineWorkflow"
          }
          post {
             always {
-               junit testResults: 'build/test-results/**/*.xml', allowEmptyResults: true
-               archiveArtifacts artifacts: 'build/tmp/onlineTest/**/build/distributions/*.zip', fingerprint: true, allowEmptyArchive: true
+               junit testResults: 'obi/build/test-groups/**/*.xml', allowEmptyResults: true
+               sh "$gradle producer"
+            }
+         }
+      }
+
+      stage('Revision Test') {
+         when { changeRequest() }
+         steps {
+            sh "$gradle revisionWorkflow"
+         }
+         post {
+            always {
+               junit testResults: 'obi/build/test-groups/**/*.xml', allowEmptyResults: true
                sh "$gradle producer"
             }
          }
@@ -53,7 +70,7 @@ pipeline {
       stage('Publish') {
          when { branch "master" }
          steps {
-            sh "$gradle publish -Pgradle.publish.key=${env.GRADLE_KEY} -Pgradle.publish.secret=${env.GRADLE_SECRET}"
+            sh "$gradle publish"
          }
          post {
             always {
@@ -61,5 +78,18 @@ pipeline {
             }
          }
       }
+
+      stage('Deploy to QA') {
+         when { branch "master" }
+         steps {
+            sh "$gradle promotePatch"
+         }
+         post {
+            always {
+               sh "$gradle producer"
+            }
+         }
+      }
+
    }
 }
