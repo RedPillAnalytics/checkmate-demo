@@ -19,47 +19,54 @@ pipeline {
    }
 
    stages {
-
-      stage('Build') {
-         steps {
-            sh "$gradle build"
+      stage('Initial') {
+         parallel {
+            stage('Startup') {
+               steps {
+                  sh "$gradle startServices"
+               }
+            }
+            stage('Build') {
+               steps {
+                  sh "$gradle build"
+               }
+            }
          }
          post {
             always {
-               junit testResults: 'build/test-results/test/*.xml', allowEmptyResults: true
-               archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true, allowEmptyArchive: true
+               archiveArtifacts artifacts: 'build/distributions/*.zip', fingerprint: true, allowEmptyArchive: true
                sh "$gradle producer"
             }
          }
       }
 
-      stage('Test') {
-         when { changeRequest() }
-         environment {
-            JENKINS_NODE_COOKIE = 'dontKillMe'
-         }
-         steps {
-            sh "$gradle cleanJunit startOBI runAllTests"
-         }
-         post {
-            always {
-               junit testResults: 'build/test-results/**/*.xml', allowEmptyResults: true
-               archiveArtifacts artifacts: 'build/tmp/onlineTest/**/build/distributions/*.zip', fingerprint: true, allowEmptyArchive: true
-               sh "$gradle producer"
-            }
-         }
-      }
+      // stage('Test') {
+      //    when { changeRequest() }
+      //    environment {
+      //       JENKINS_NODE_COOKIE = 'dontKillMe'
+      //    }
+      //    steps {
+      //       sh "$gradle cleanJunit startOBI runAllTests"
+      //    }
+      //    post {
+      //       always {
+      //          junit testResults: 'build/test-results/**/*.xml', allowEmptyResults: true
+      //          archiveArtifacts artifacts: 'build/tmp/onlineTest/**/build/distributions/*.zip', fingerprint: true, allowEmptyArchive: true
+      //          sh "$gradle producer"
+      //       }
+      //    }
+      // }
 
-      stage('Publish') {
-         when { branch "master" }
-         steps {
-            sh "$gradle publish -Pgradle.publish.key=${env.GRADLE_KEY} -Pgradle.publish.secret=${env.GRADLE_SECRET}"
-         }
-         post {
-            always {
-               sh "$gradle producer"
-            }
-         }
-      }
+      // stage('Publish') {
+      //    when { branch "master" }
+      //    steps {
+      //       sh "$gradle publish"
+      //    }
+      //    post {
+      //       always {
+      //          sh "$gradle producer"
+      //       }
+      //    }
+      // }
    }
 }
