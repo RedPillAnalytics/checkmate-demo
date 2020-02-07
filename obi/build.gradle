@@ -15,7 +15,6 @@ obi {
 dependencies {
   obiee 'com.redpillanalytics:checkmate-obi:+'
   feature 'obiee:obi-build:+'
-  promote 'obiee:obi-build:+'
 }
 
 publishing {

@@ -21,6 +21,7 @@ pipeline {
 
    stages {
       stage('Assemble') {
+         when { changeRequest() }
          parallel {
             stage('Startup') {
                steps {
@@ -74,6 +75,7 @@ pipeline {
          }
          post {
             always {
+               archiveArtifacts artifacts: 'obi/build/distributions/*.zip', fingerprint: true, allowEmptyArchive: true
                sh "$gradle producer"
             }
          }
@@ -81,8 +83,15 @@ pipeline {
 
       stage('Deploy to QA') {
          when { branch "master" }
+         input {
+                message "Deploy Release to QA?"
+                ok "Deploy"
+                parameters {
+                    string(name: 'Approver', defaultValue: 'Stewart Bryson', description: 'The approver')
+                }
+            }
          steps {
-            sh "$gradle promotePatch"
+            sh "$gradle importWorkflow"
          }
          post {
             always {
