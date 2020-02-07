@@ -78,5 +78,18 @@ pipeline {
             }
          }
       }
+
+      stage('Deploy to QA') {
+         when { branch "master" }
+         steps {
+            sh "$gradle promotePatch"
+         }
+         post {
+            always {
+               sh "$gradle producer"
+            }
+         }
+      }
+
    }
 }
