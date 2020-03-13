@@ -19,4 +19,7 @@
 <PresentationColumn mdsid="m00000000-53f2-1797-902f-0a800fd00000" name="Target Quantity#1" hasDispName="false" hasDispDescription="false" overrideLogicalName="false" logicalColumnRef="/oracle/bi/server/base/LogicalTable/80cb68a3-07f3-0000-714b-e31d00000000.xml#m00000001-53f0-1797-902f-0a800fd00000">
 <Description><![CDATA[Returns the Target Quantity from the Target Facts table with a Sum aggregation]]></Description>
 </PresentationColumn>
+<PresentationColumn mdsid="m80000000-e2b6-179a-ac27-0a800fd30000" name="Target Quantity#2" hasDispName="false" hasDispDescription="false" overrideLogicalName="false" logicalColumnRef="/oracle/bi/server/base/LogicalTable/80cb68a3-07f3-0000-714b-e31d00000000.xml#m40000001-e2b3-179a-ac27-0a800fd30000">
+<Description><![CDATA[Returns the Target Quantity from the Target Facts table with a Sum aggregation]]></Description>
+</PresentationColumn>
 </PresentationTable>
