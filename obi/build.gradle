@@ -1,5 +1,5 @@
 plugins {
-  id 'com.redpillanalytics.checkmate.obi' version "10.2.9"
+  id 'com.redpillanalytics.checkmate.obi' version "10.2.11"
   id 'com.adarshr.test-logger' version "2.0.0"
 }
 
