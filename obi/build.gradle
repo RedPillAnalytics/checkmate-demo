@@ -1,6 +1,6 @@
 plugins {
-  id 'com.redpillanalytics.checkmate.obi' version "10.2.9"
-  id 'com.adarshr.test-logger' version "2.0.0"
+  id 'com.redpillanalytics.checkmate.obi' version "12.0.12"
+  id 'com.adarshr.test-logger' version "2.1.0"
 }
 
 obi {
@@ -13,7 +13,7 @@ obi {
 }
 
 dependencies {
-  obiee 'com.redpillanalytics:checkmate-obi:+'
+  //obiee 'com.redpillanalytics:checkmate-obi:+'
   feature 'obiee:obi-build:+'
 }
 
