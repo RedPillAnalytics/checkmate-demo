@@ -11,9 +11,6 @@ pipeline {
 		AWS = credentials("rpa-development-build-server-svc")
 		AWS_ACCESS_KEY_ID = "${env.AWS_USR}"
 		AWS_SECRET_ACCESS_KEY = "${env.AWS_PSW}"
-		GRADLE_COMBINED = credentials("gradle-publish-key")
-		GRADLE_KEY = "${env.GRADLE_COMBINED_USR}"
-		GRADLE_SECRET = "${env.GRADLE_COMBINED_PSW}"
       ADMIN = credentials('obiee-admin-user')
       repositoryPassword = credentials('obiee-repository-password')
       JENKINS_NODE_COOKIE = 'dontKillMe'
