@@ -12,6 +12,8 @@ pipeline {
 		AWS_ACCESS_KEY_ID = "${env.AWS_USR}"
 		AWS_SECRET_ACCESS_KEY = "${env.AWS_PSW}"
       ADMIN = credentials('obiee-admin-user')
+      adminUser = "${env.ADMIN_USR}"
+      adminPassword = "${env.ADMIN_PSW}"
       repositoryPassword = credentials('obiee-repository-password')
       JENKINS_NODE_COOKIE = 'dontKillMe'
    }
@@ -31,12 +33,6 @@ pipeline {
                }
             }
          }
-         post {
-            always {
-               archiveArtifacts artifacts: 'obi/build/distributions/*.zip', fingerprint: true, allowEmptyArchive: true
-               sh "$gradle producer"
-            }
-         }
       }
 
       stage('Baseline Test') {
@@ -47,7 +43,6 @@ pipeline {
          post {
             always {
                junit testResults: 'obi/build/test-groups/**/*.xml', allowEmptyResults: true
-               sh "$gradle producer"
             }
          }
       }
@@ -60,7 +55,6 @@ pipeline {
          post {
             always {
                junit testResults: 'obi/build/test-groups/**/*.xml', allowEmptyResults: true
-               sh "$gradle producer"
             }
          }
       }
@@ -70,12 +64,6 @@ pipeline {
          steps {
             sh "$gradle featureCompare publish"
          }
-         post {
-            always {
-               archiveArtifacts artifacts: 'obi/build/distributions/*.zip', fingerprint: true, allowEmptyArchive: true
-               sh "$gradle producer"
-            }
-         }
       }
 
       stage('Deploy to QA') {
@@ -83,12 +71,13 @@ pipeline {
          steps {
             sh "$gradle importWorkflow"
          }
-         post {
-            always {
-               sh "$gradle producer"
-            }
-         }
       }
 
+   }
+   post {
+      always {
+         archiveArtifacts artifacts: 'obi/build/distributions/*.zip', fingerprint: true, allowEmptyArchive: true
+         sh "$gradle producer"
+      }
    }
 }
