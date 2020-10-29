@@ -12,9 +12,7 @@ pipeline {
 		AWS_ACCESS_KEY_ID = "${env.AWS_USR}"
 		AWS_SECRET_ACCESS_KEY = "${env.AWS_PSW}"
       ADMIN = credentials('obiee-admin-user')
-      adminUser = "${env.ADMIN_USR}"
-      adminPassword = "${env.ADMIN_PSW}"
-      repositoryPassword = credentials('obiee-repository-password')
+      REPOSITORY_PSW = credentials('obiee-repository-password')
       JENKINS_NODE_COOKIE = 'dontKillMe'
    }
 
@@ -29,7 +27,7 @@ pipeline {
             }
             stage('Build') {
                steps {
-                  sh "$gradle featureCompare buildZip deployZip"
+                  sh "$gradle featureCompare buildZip deployZip -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
                }
             }
          }
@@ -38,7 +36,7 @@ pipeline {
       stage('Baseline Test') {
          when { changeRequest() }
          steps {
-            sh "$gradle featureBaselineWorkflow"
+            sh "$gradle featureBaselineWorkflow -Pobi.adminUser=${env.ADMIN_USR} -Pobi.adminPassword=${env.ADMIN_PSW} -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
          }
          post {
             always {
@@ -50,7 +48,7 @@ pipeline {
       stage('Revision Test') {
          when { changeRequest() }
          steps {
-            sh "$gradle revisionWorkflow"
+            sh "$gradle revisionWorkflow -Pobi.adminUser=${env.ADMIN_USR} -Pobi.adminPassword=${env.ADMIN_PSW} -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
          }
          post {
             always {
