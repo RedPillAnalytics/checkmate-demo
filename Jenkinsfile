@@ -1,7 +1,5 @@
 def options = '-S'
-def properties = "-Panalytics.buildTag=${env.BUILD_TAG}"
-def gradle = "./gradlew ${options} ${properties}"
-def domain = '/home/oracle/fmw/config/domains/bi'
+def gradle = "./gradlew ${options}"
 
 pipeline {
    agent { label 'gce-obi-12.2.1.4' }
@@ -67,7 +65,7 @@ pipeline {
       stage('Deploy to QA') {
          when { branch "master" }
          steps {
-            sh "$gradle importWorkflow"
+            sh "$gradle importWorkflow -Pobi.adminUser=${env.ADMIN_USR} -Pobi.adminPassword=${env.ADMIN_PSW} -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
          }
       }
 
