@@ -60,7 +60,7 @@ pipeline {
       stage('Publish') {
          when { branch "master" }
          steps {
-            sh "$gradle featureCompare publish"
+            sh "$gradle featureCompare publish -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
          }
       }
 
