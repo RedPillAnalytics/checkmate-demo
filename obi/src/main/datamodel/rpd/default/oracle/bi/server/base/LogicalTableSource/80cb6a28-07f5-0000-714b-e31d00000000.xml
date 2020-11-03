@@ -33,49 +33,17 @@
 </ObjectRefList>
 </Expr>
 </ColumnMapping>
-<ColumnMapping>
-<LogicalColumnExpr mdsid="m00000005-01f4-0000-c868-cf2300000000" name="LogicalColumnExpr">
-<ExprText><![CDATA["%1"]]></ExprText>
-<ExprTextDesc><![CDATA["SampleApp Lite"."F1 Targets Base Measures"."Target Quantity#1"]]></ExprTextDesc>
-<ObjectRefList>
-<RefObject refId="m00000005-01f4-0000-c868-cf2300000000-m00000001-53f0-1797-902f-0a800fd00000" objectTypeId="2006" objectRef="/oracle/bi/server/base/LogicalTable/80cb68a3-07f3-0000-714b-e31d00000000.xml#m00000001-53f0-1797-902f-0a800fd00000"/>
-</ObjectRefList>
-</LogicalColumnExpr>
-<Expr mdsid="m00000006-01f4-0000-cd3c-369600000000" name="Expr">
-<ExprText><![CDATA["%1"]]></ExprText>
-<ExprTextDesc><![CDATA["Sample App Lite Data"."".""."F20 Targets Facts"."Units"]]></ExprTextDesc>
-<ObjectRefList>
-<RefObject refId="m00000006-01f4-0000-cd3c-369600000000-m80caa892-0bbb-0000-714b-e31d00000000" objectTypeId="3003" objectRef="/oracle/bi/server/base/PhysicalTable/80caa88d-0bb9-0000-714b-e31d00000000.xml#m80caa892-0bbb-0000-714b-e31d00000000"/>
-</ObjectRefList>
-</Expr>
-</ColumnMapping>
-<ColumnMapping>
-<LogicalColumnExpr mdsid="m00000007-01f4-0000-8c5e-7c8e00000000" name="LogicalColumnExpr">
-<ExprText><![CDATA["%1"]]></ExprText>
-<ExprTextDesc><![CDATA["SampleApp Lite"."F1 Targets Base Measures"."Target Quantity#2"]]></ExprTextDesc>
-<ObjectRefList>
-<RefObject refId="m00000007-01f4-0000-8c5e-7c8e00000000-m40000001-e2b3-179a-ac27-0a800fd30000" objectTypeId="2006" objectRef="/oracle/bi/server/base/LogicalTable/80cb68a3-07f3-0000-714b-e31d00000000.xml#m40000001-e2b3-179a-ac27-0a800fd30000"/>
-</ObjectRefList>
-</LogicalColumnExpr>
-<Expr mdsid="m00000008-01f4-0000-ba55-e2db00000000" name="Expr">
-<ExprText><![CDATA["%1"]]></ExprText>
-<ExprTextDesc><![CDATA["Sample App Lite Data"."".""."F20 Targets Facts"."Units"]]></ExprTextDesc>
-<ObjectRefList>
-<RefObject refId="m00000008-01f4-0000-ba55-e2db00000000-m80caa892-0bbb-0000-714b-e31d00000000" objectTypeId="3003" objectRef="/oracle/bi/server/base/PhysicalTable/80caa88d-0bb9-0000-714b-e31d00000000.xml#m80caa892-0bbb-0000-714b-e31d00000000"/>
-</ObjectRefList>
-</Expr>
-</ColumnMapping>
 <Link startNodeTableRef="/oracle/bi/server/base/PhysicalTable/80caa88d-0bb9-0000-714b-e31d00000000.xml#m80caa88d-0bb9-0000-714b-e31d00000000">
 </Link>
-<WhereClause mdsid="m00000009-01f4-0000-78a7-6a5700000000" name="WhereClause">
+<WhereClause mdsid="m00000005-01f4-0000-1e80-be0100000000" name="WhereClause">
 <ExprText></ExprText>
 <ExprTextDesc></ExprTextDesc>
 </WhereClause>
-<GroupBy mdsid="m0000000a-01f4-0000-5806-a5f300000000" name="GroupBy">
+<GroupBy mdsid="m00000006-01f4-0000-61d3-5f9900000000" name="GroupBy">
 <ExprText></ExprText>
 <ExprTextDesc></ExprTextDesc>
 </GroupBy>
-<FragmentContent mdsid="m0000000b-01f4-0000-9da5-3ffd00000000" name="FragmentContent">
+<FragmentContent mdsid="m00000007-01f4-0000-1847-0bc000000000" name="FragmentContent">
 <ExprText></ExprText>
 <ExprTextDesc></ExprTextDesc>
 </FragmentContent>
