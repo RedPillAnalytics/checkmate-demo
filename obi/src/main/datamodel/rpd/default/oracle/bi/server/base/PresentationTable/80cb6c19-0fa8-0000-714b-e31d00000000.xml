@@ -16,4 +16,7 @@
 <PresentationColumn mdsid="m80cb6def-0faa-0000-714b-e31d00000000" name="Actual Unit Price" hasDispName="false" hasDispDescription="false" overrideLogicalName="false" logicalColumnRef="/oracle/bi/server/base/LogicalTable/80cb6833-07f3-0000-714b-e31d00000000.xml#m80cb68aa-07d6-0000-714b-e31d00000000">
 <Description><![CDATA[This logical object calculates the Actua Unit Price by dividing Revenue by Units.]]></Description>
 </PresentationColumn>
+<PresentationColumn mdsid="mc0000000-5a44-17e8-9618-0a800fec0000" name="Target Quantity#1" hasDispName="false" hasDispDescription="false" overrideLogicalName="false" logicalColumnRef="/oracle/bi/server/base/LogicalTable/80cb68a3-07f3-0000-714b-e31d00000000.xml#mc0000000-5a42-17e8-9618-0a800fec0000">
+<Description><![CDATA[Returns the Target Quantity from the Target Facts table with a Sum aggregation]]></Description>
+</PresentationColumn>
 </PresentationTable>

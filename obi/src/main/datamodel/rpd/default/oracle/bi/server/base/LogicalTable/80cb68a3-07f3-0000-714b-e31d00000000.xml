@@ -43,6 +43,27 @@
 </ObjectRefList>
 </AttributeDefn>
 </LogicalColumn>
+<LogicalColumn mdsid="mc0000000-5a42-17e8-9618-0a800fec0000" name="Target Quantity#1" isWriteable="false">
+<Description><![CDATA[Returns the Target Quantity from the Target Facts table with a Sum aggregation]]></Description>
+<MeasureDefn mdsid="m40000000-5a47-17e8-a12e-0a800fec0000" name="Measure" isCommutative="false">
+<AggrRule mdsid="m40000001-5a47-17e8-a12e-0a800fec0000" name="AggRule_2050:6101604413725" isDefault="true">
+<Expr mdsid="m00000005-01f4-0000-ec90-d68c00000000" name="Expr">
+<ExprText><![CDATA[ SUM("%1")]]></ExprText>
+<ExprTextDesc><![CDATA[ SUM("SampleApp Lite"."F1 Targets Base Measures"."Target Quantity#1")]]></ExprTextDesc>
+<ObjectRefList>
+<RefObject refId="m00000005-01f4-0000-ec90-d68c00000000-mc0000000-5a42-17e8-9618-0a800fec0000" objectTypeId="2006" objectRef="/oracle/bi/server/base/LogicalTable/80cb68a3-07f3-0000-714b-e31d00000000.xml#mc0000000-5a42-17e8-9618-0a800fec0000"/>
+</ObjectRefList>
+</Expr>
+</AggrRule>
+</MeasureDefn>
+<AttributeDefn mdsid="m00000006-01f4-0000-bbdb-7a5b00000000" name="AttributeDefn">
+<ExprText><![CDATA["%1"]]></ExprText>
+<ExprTextDesc><![CDATA["Sample App Lite Data"."".""."F20 Targets Facts"."Units"]]></ExprTextDesc>
+<ObjectRefList>
+<RefObject refId="m00000006-01f4-0000-bbdb-7a5b00000000-m80caa892-0bbb-0000-714b-e31d00000000" objectTypeId="3003" objectRef="/oracle/bi/server/base/PhysicalTable/80caa88d-0bb9-0000-714b-e31d00000000.xml#m80caa892-0bbb-0000-714b-e31d00000000"/>
+</ObjectRefList>
+</AttributeDefn>
+</LogicalColumn>
 <RefTableSources>
 <RefLogicalTableSource refId="m80cb68a3-07f3-0000-714b-e31d00000000-m80cb6a28-07f5-0000-714b-e31d00000000" logicalTableSourceRef="/oracle/bi/server/base/LogicalTableSource/80cb6a28-07f5-0000-714b-e31d00000000.xml#m80cb6a28-07f5-0000-714b-e31d00000000"/>
 </RefTableSources>
