@@ -65,6 +65,7 @@ pipeline {
       stage('Deploy to QA') {
          when { branch "master" }
          steps {
+            sh "$gradle startServices"
             sh "$gradle importWorkflow -Pobi.adminUser=${env.ADMIN_USR} -Pobi.adminPassword=${env.ADMIN_PSW} -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
          }
       }
