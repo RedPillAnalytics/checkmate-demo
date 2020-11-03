@@ -14,7 +14,7 @@ obi {
 
 dependencies {
   //obiee 'com.redpillanalytics:checkmate-obi:+'
-  feature('obiee:obi-build:+') {changing=true}
+  feature 'obiee:obi-build:+'
 }
 
 publishing {
@@ -23,4 +23,8 @@ publishing {
          url publishUrl
       }
    }
+}
+
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor 1, 'seconds'
 }
