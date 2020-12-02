@@ -2,79 +2,80 @@ def options = '-S'
 def gradle = "./gradlew ${options}"
 
 pipeline {
-   agent { label 'gce-obi-12.2.1.4' }
+  agent {
+    kubernetes {
+      defaultContainer 'oas'
+      yamlFile 'pod-template.yaml'
+      slaveConnectTimeout 200
+    }
+  }
 
-   environment {
-      ORG_GRADLE_PROJECT_githubToken = credentials('github-redpillanalyticsbot-secret')
-		AWS = credentials("rpa-development-build-server-svc")
-		AWS_ACCESS_KEY_ID = "${env.AWS_USR}"
-		AWS_SECRET_ACCESS_KEY = "${env.AWS_PSW}"
-      ADMIN = credentials('obiee-admin-user')
-      REPOSITORY_PSW = credentials('obiee-repository-password')
-      JENKINS_NODE_COOKIE = 'dontKillMe'
-   }
+  environment {
+    ORG_GRADLE_PROJECT_githubToken = credentials('github-redpillanalyticsbot-secret')
+    AWS = credentials("rpa-development-build-server-svc")
+    AWS_ACCESS_KEY_ID = "${env.AWS_USR}"
+    AWS_SECRET_ACCESS_KEY = "${env.AWS_PSW}"
+    ADMIN = credentials('obiee-admin-user')
+    REPOSITORY_PSW = credentials('obiee-repository-password')
+    JENKINS_NODE_COOKIE = 'dontKillMe'
+  }
 
-   stages {
-      stage('Assemble') {
-         when { changeRequest() }
-         parallel {
-            stage('Startup') {
-               steps {
-                  sh "$gradle startServices"
-               }
-            }
-            stage('Build') {
-               steps {
-                  sh "$gradle featureCompare buildZip deployZip -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
-               }
-            }
-         }
+  stages {
+
+    stage('Build') {
+      when { changeRequest() }
+      container('gradle') {
+        sh "$gradle featureCompare buildZip deployZip -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
       }
-
-      stage('Baseline Test') {
-         when { changeRequest() }
-         steps {
-            sh "$gradle featureBaselineWorkflow -Pobi.adminUser=${env.ADMIN_USR} -Pobi.adminPassword=${env.ADMIN_PSW} -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
-         }
-         post {
-            always {
-               junit testResults: 'obi/build/test-groups/**/*.xml', allowEmptyResults: true
-            }
-         }
+      post {
+        always {
+           junit testResults: 'obi/build/test-groups/**/*.xml', allowEmptyResults: true
+        }
       }
+    }
 
-      stage('Revision Test') {
-         when { changeRequest() }
-         steps {
-            sh "$gradle revisionWorkflow -Pobi.adminUser=${env.ADMIN_USR} -Pobi.adminPassword=${env.ADMIN_PSW} -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
-         }
-         post {
-            always {
-               junit testResults: 'obi/build/test-groups/**/*.xml', allowEmptyResults: true
-            }
-         }
-      }
+    stage('Baseline Test') {
+       when { changeRequest() }
+       steps {
+          sh "$gradle featureBaselineWorkflow -Pobi.adminUser=${env.ADMIN_USR} -Pobi.adminPassword=${env.ADMIN_PSW} -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
+       }
+       post {
+          always {
+             junit testResults: 'obi/build/test-groups/**/*.xml', allowEmptyResults: true
+          }
+       }
+    }
 
-      stage('Publish') {
-         when { branch "master" }
-         steps {
-            sh "$gradle featureCompare publish -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
-         }
-      }
+    stage('Revision Test') {
+       when { changeRequest() }
+       steps {
+          sh "$gradle revisionWorkflow -Pobi.adminUser=${env.ADMIN_USR} -Pobi.adminPassword=${env.ADMIN_PSW} -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
+       }
+       post {
+          always {
+             junit testResults: 'obi/build/test-groups/**/*.xml', allowEmptyResults: true
+          }
+       }
+    }
 
-      stage('Deploy to QA') {
-         when { branch "master" }
-         steps {
-            sh "$gradle startServices"
-            sh "$gradle importWorkflow -Pobi.adminUser=${env.ADMIN_USR} -Pobi.adminPassword=${env.ADMIN_PSW} -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
-         }
-      }
+    stage('Publish') {
+       when { branch "master" }
+       steps {
+          sh "$gradle featureCompare publish -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
+       }
+    }
 
-   }
-   post {
-      always {
-         archiveArtifacts artifacts: 'obi/build/distributions/*.zip', fingerprint: true, allowEmptyArchive: true
-         sh "$gradle producer"
-      }
-   }
+    stage('Deploy to QA') {
+       when { branch "master" }
+       steps {
+          sh "$gradle importWorkflow -Pobi.adminUser=${env.ADMIN_USR} -Pobi.adminPassword=${env.ADMIN_PSW} -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
+       }
+    }
+}
+  post {
+    always {
+       archiveArtifacts artifacts: 'obi/build/distributions/*.zip', fingerprint: true, allowEmptyArchive: true
+       sh "$gradle producer"
+    }
+  }
 }
