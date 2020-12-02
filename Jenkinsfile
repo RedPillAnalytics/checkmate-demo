@@ -17,7 +17,6 @@ pipeline {
     AWS_SECRET_ACCESS_KEY = "${env.AWS_PSW}"
     ADMIN = credentials('obiee-admin-user')
     REPOSITORY_PSW = credentials('obiee-repository-password')
-    JENKINS_NODE_COOKIE = 'dontKillMe'
   }
 
   stages {
@@ -25,9 +24,7 @@ pipeline {
     stage('Build') {
       when { changeRequest() }
       steps {
-        container('gradle') {
-          sh "$gradle featureCompare buildZip deployZip -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
-        }
+        sh "$gradle featureCompare buildZip deployZip -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
       }
       post {
         always {
