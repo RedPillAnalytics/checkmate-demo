@@ -24,8 +24,10 @@ pipeline {
 
     stage('Build') {
       when { changeRequest() }
-      container('gradle') {
-        sh "$gradle featureCompare buildZip deployZip -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
+      steps {
+        container('gradle') {
+          sh "$gradle featureCompare buildZip deployZip -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
+        }
       }
       post {
         always {
