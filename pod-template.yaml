@@ -8,7 +8,6 @@ spec:
           value: jnlp
     - name: oas
       image: gcr.io/rpa-devops/oas
-      command: ['/home/oracle/runOAS.sh']
       tty: true
       env:
         - name: GRADLE_USER_HOME
