@@ -6,7 +6,7 @@ pipeline {
     kubernetes {
       defaultContainer 'oas'
       yamlFile 'pod-template.yaml'
-      slaveConnectTimeout 200
+      slaveConnectTimeout 1000
     }
   }
 
