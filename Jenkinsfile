@@ -13,11 +13,10 @@ pipeline {
 
   environment {
     ORG_GRADLE_PROJECT_githubToken = credentials('github-redpillanalyticsbot-secret')
-    AWS = credentials("rpa-development-build-server-svc")
-    AWS_ACCESS_KEY_ID = "${env.AWS_USR}"
-    AWS_SECRET_ACCESS_KEY = "${env.AWS_PSW}"
+    AWS_ACCESS_KEY_ID = credentials('aws-secret-id')
+    AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key')
     ADMIN = credentials('obiee-admin-user')
-    REPOSITORY_PSW = credentials('obiee-repository-password')
+    ORG_GRADLE_PROJECT_obi_repositoryPassword = credentials('obiee-repository-password')
   }
 
   stages {
@@ -25,7 +24,7 @@ pipeline {
     stage('Build') {
       when { changeRequest() }
       steps {
-        sh "$gradle featureCompare buildZip deployZip -Pobi.repositoryPassword=${env.REPOSITORY_PSW}"
+        sh "$gradle featureCompare buildZip deployZip"
       }
       post {
         always {
