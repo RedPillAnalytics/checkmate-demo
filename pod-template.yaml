@@ -14,6 +14,11 @@ spec:
           name: database-port
         - containerPort: 1521
           name: oas-port
+      readinessProbe:
+        tcpSocket:
+          port: 9502
+        initialDelaySeconds: 300
+        periodSeconds: 60
       tty: true
       resources:
         requests:
