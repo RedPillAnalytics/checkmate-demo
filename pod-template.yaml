@@ -12,7 +12,7 @@ spec:
       ports:
         - containerPort: 1521
           name: database-port
-        - containerPort: 1521
+        - containerPort: 9502
           name: oas-port
       readinessProbe:
         tcpSocket:
