@@ -7,6 +7,7 @@ pipeline {
       defaultContainer 'oas'
       yamlFile 'pod-template.yaml'
       slaveConnectTimeout 2000
+      idleMinutes 60
     }
   }
 
